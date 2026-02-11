@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import { connectDb } from "./config/mongodb.js"
 import { productRouter } from "./routes/productsRouter.js"
+import { CategoryRouter } from "./routes/categoryRouter.js"
 import { authRouter } from "./routes/authRouter.js"
 import { authMiddleware } from "./middleware/authMiddleware.js"
 import dotenv from "dotenv"
@@ -14,9 +15,14 @@ const serverHttp = express()
 serverHttp.use(cors())
 serverHttp.use(express.json())
 
-// GET - http://localhost:50000/products
+// GET - http://localhost:3000/products
 
-serverHttp.use("/products", authMiddleware, productRouter)
+
+//SAQUE EL AUTHMIDDLEWARE PARA QUE NO ME PIDA TOKEN JEJE
+//serverHttp.use("/products", authMiddleware, productRouter)
+serverHttp.use("/products", productRouter)
+
+serverHttp.use("/category", CategoryRouter)
 serverHttp.use("/auth", authRouter)
 
 // error 404

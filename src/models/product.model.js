@@ -7,7 +7,12 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, default: 0 },
   stock: { type: Number, default: 0 },
   description: { type: String, default: "Sin descripción" },
-  category: { type: String, default: "Sin categoria" }
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+    default: "Sin categoria"
+  }
 }, {
   versionKey: false
 })

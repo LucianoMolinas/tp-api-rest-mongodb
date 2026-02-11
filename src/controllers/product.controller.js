@@ -2,7 +2,7 @@ import { Product } from "../models/product.model.js"
 
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ _id: -1 })
+    const products = await Product.find().populate("category").sort({ _id: -1 })
     res.json({ success: true, data: products })
   } catch (error) {
     console.log(error)
