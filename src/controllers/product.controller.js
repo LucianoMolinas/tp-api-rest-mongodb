@@ -1,8 +1,12 @@
+
+//import * as  productService from "../services/productService.js"
+
+import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../services/productService.js"
 import { Product } from "../models/product.model.js"
 
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("category").sort({ _id: -1 })
+    const products = await getAllProducts()
     res.json({ success: true, data: products })
   } catch (error) {
     console.log(error)
@@ -10,18 +14,15 @@ const getProducts = async (req, res) => {
   }
 }
 
-const createProduct = async (req, res) => {
+const crtProduct = async (req, res) => {
   try {
     const body = req.body
     const { name, price, stock, category, description } = body
 
-    // zod / joi / yup validaciones
-
     if (!name) {
       return res.status(400).json({ success: false, error: "Data invalida, vuelve a intentarlo" })
     }
-
-    const createdProduct = await Product.create({ name, price, stock, category, description })
+    const createdProduct = await createProduct(req.body)
 
     res.status(201).json({ success: true, data: createdProduct })
   } catch (error) {
@@ -29,31 +30,34 @@ const createProduct = async (req, res) => {
   }
 }
 
-const updateProduct = async (req, res) => {
+const updProduct = async (req, res) => {
   try {
     const id = req.params.id
     const updates = req.body
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true })
+    const updatedProduct = await updateProduct(id, updates)
 
     if (!updatedProduct) {
       return res.status(404).json({ success: false, error: "no existe el producto para actualizar" })
     }
-
-    res.json({ success: true, data: updatedProduct })
+    else {
+      res.json({ success: true, data: updatedProduct })
+    }
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message })
   }
 }
 
-const deleteProduct = async (req, res) => {
+const delProduct = async (req, res) => {
   try {
     const id = req.params.id
-    const deletedProduct = await Product.findByIdAndDelete(id)
+
+    const deletedProduct = await deleteProduct(id)
+
     if (!deletedProduct) {
       return res.status(404).json({ success: false, error: "no existe el producto para borrar" })
     }
-    res.json({ success: true, data: deletedProduct })
+    res.status(200).json({ success: true, data: deletedProduct })
   } catch (error) {
     if (error.kind === "ObjectId") {
       return res.status(400).json({ success: false, error: "ID incorrecto, ingresa un valor valido" })
@@ -62,4 +66,4 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-export { getProducts, createProduct, updateProduct, deleteProduct }
+export { getProducts, crtProduct, updProduct, delProduct }

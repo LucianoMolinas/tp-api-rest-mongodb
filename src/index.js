@@ -19,8 +19,8 @@ serverHttp.use(express.json())
 
 
 //SAQUE EL AUTHMIDDLEWARE PARA QUE NO ME PIDA TOKEN JEJE
-//serverHttp.use("/products", authMiddleware, productRouter)
-serverHttp.use("/products", productRouter)
+serverHttp.use("/products", authMiddleware, productRouter)
+//serverHttp.use("/products", productRouter)
 
 serverHttp.use("/category", CategoryRouter)
 serverHttp.use("/auth", authRouter)
