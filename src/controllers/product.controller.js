@@ -2,7 +2,7 @@
 //import * as  productService from "../services/productService.js"
 
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../services/productService.js"
-import { Product } from "../models/product.model.js"
+
 
 const getProducts = async (req, res) => {
   try {
