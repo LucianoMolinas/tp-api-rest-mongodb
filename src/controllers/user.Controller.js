@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js"
-import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import { newUser, getUser, validUser } from "../services/userService.js"
 dotenv.config()
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -27,21 +27,14 @@ const register = async (req, res) => {
       return res.status(400).json({ success: false, error: "la contraseña debe contar al menos con 5 caracteres" })
     }
 
-    const hash = await bcryptjs.hash(password, 10)
+    const newUser1 = await newUser(body)
 
-    const newDataUser = {
-      email,
-      password: hash,
-      username
-    }
-
-    const newUser = await User.create(newDataUser)
 
     res.status(201).json({
       success: true, data: {
-        _id: newUser._id,
-        username: newUser.username,
-        email: newUser.email
+        _id: newUser1._id,
+        username: newUser1.username,
+        email: newUser1.email
       }
     })
   } catch (error) {
@@ -60,15 +53,14 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ success: false, error: "data invalida, ingrese los datos requeridos" })
     }
+    const foundUser = await getUser(body)
 
-    const foundUser = await User.findOne({ email })
 
     if (!foundUser) {
       return res.status(401).json({ success: false, error: "desautorizado" })
     }
 
-    // const validatePassword = await bcryptjs.compare(password, foundUser.password)
-    const validatePassword = await bcryptjs.compare(password, foundUser.password)
+    const validatePassword = await validUser(password, foundUser.password)
 
     if (!validatePassword) {
       return res.status(401).json({ succes: false, error: "desautorizado" })
