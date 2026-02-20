@@ -10,8 +10,7 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
-    default: "Sin categoria"
+    required: true
   }
 }, {
   versionKey: false

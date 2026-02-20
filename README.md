@@ -1,6 +1,9 @@
 
-# Trabajo Practico : API RESTful
+# Trabajo Práctico : API RESTful
 
+## Autor
+
+Luciano Molinas
 
 #### Este proyecto incluye un grupo de APIs con las operaciones CRUD de productos, categorias y registro y login de usuarios.
 
@@ -25,8 +28,7 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
-    default: "Sin categoria"
+    required: true
   }
 }, {
   versionKey: false
@@ -45,12 +47,13 @@ const UserSchema = new mongoose.Schema({
 
 ## Tecnologias utilizadas :
 
-- NodeJs
+- Node.js
+- Express.js
+- Mongoose
 - MongoDB 
-- APIs RESTful
-- Autenticacion con JWT 
-- encriptacion utilizando bcrypt
-- GitHub
+- JWT 
+- bcrypt
+- Git
 
 
 
@@ -58,7 +61,7 @@ const UserSchema = new mongoose.Schema({
 
 En la carpeta del proyecto ejecutar :
 
-- npm install 
+npm install
 
 ## Ejecución :
 
@@ -83,14 +86,14 @@ curl -X POST http://localhost:3000/products -H "Content-Type: application/json" 
   "name": "Par de medias 2",
   "price": 50,
   "stock": 0,
-  "category": "Ropa",
+  "category": "698cfab5ffada466cac4c1b2",
   "description": "Medias de algodón unisex."
 }'
 ```
 
 ##### Modificar producto
 ```sh
-curl -X PATCH http://localhost:50000/products/695d9fa29f59ec384ab62f3e -H "Content-Type: application/json" -d '{
+curl -X PATCH http://localhost:3000/products/695d9fa29f59ec384ab62f3e -H "Content-Type: application/json" -d '{
   "price": 49.99,
   "stock": 100
 }'
@@ -98,7 +101,7 @@ curl -X PATCH http://localhost:50000/products/695d9fa29f59ec384ab62f3e -H "Conte
 ```
 ##### Borrar producto
 ```sh
-curl -X DELETE http://localhost:50000/products/695d9fa29f59ec384ab62f3e
+curl -X DELETE http://localhost:3000/products/695d9fa29f59ec384ab62f3e
 
 ```
 
@@ -137,7 +140,7 @@ curl -X DELETE http://localhost:3000/category/698ce813221cbb4e6ae66937
 
 
 ```sh
-curl -X POST http://localhost:3000/auth/resgister -H "Content-Type: application/json" -d '{
+curl -X POST http://localhost:3000/auth/register -H "Content-Type: application/json" -d '{
   
   "email": "lucianomolinas55@gmail.com",
   "password": "newells", 
