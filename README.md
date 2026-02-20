@@ -5,11 +5,11 @@
 
 Luciano Molinas
 
-#### Este proyecto incluye un grupo de APIs con las operaciones CRUD de productos, categorias y registro y login de usuarios.
+#### Este proyecto incluye un grupo de APIs con las operaciones CRUD de productos, categorías además de registro y login de usuarios.
 
 ## Esquema de Base de datos :
 
-####  Categorias (collection categories)
+####  Categorías (collection categories)
 
 const CategorySchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -45,7 +45,7 @@ const UserSchema = new mongoose.Schema({
 )
 
 
-## Tecnologias utilizadas :
+## Tecnologías utilizadas :
 
 - Node.js
 - Express.js
