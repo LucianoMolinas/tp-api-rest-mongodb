@@ -1,6 +1,3 @@
-
-//import * as  productService from "../services/productService.js"
-
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../services/productService.js"
 
 

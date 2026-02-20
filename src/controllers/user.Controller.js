@@ -1,4 +1,3 @@
-import { User } from "../models/user.model.js"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import { newUser, getUser, validUser } from "../services/userService.js"
@@ -13,12 +12,10 @@ const register = async (req, res) => {
 
     const { email, password, username } = body
 
-    // implementar validaciones de input con ZOD
     if (!email || !password || !username) {
       return res.status(400).json({ success: false, error: "data invalida, revisa los datos compartidos" })
     }
 
-    // gabi3@gmail.com
     if (!email.includes("@") || !email.endsWith(".com")) {
       return res.status(400).json({ success: false, error: "el correo electronico debería ser un email valido" })
     }

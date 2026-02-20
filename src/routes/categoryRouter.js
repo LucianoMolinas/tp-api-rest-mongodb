@@ -3,7 +3,6 @@ import { getCategory, createCategory, updCategory, delCategory } from "../contro
 
 const CategoryRouter = Router()
 
-// GET - http://localhost:3000/products/
 
 CategoryRouter.get("/", getCategory)
 CategoryRouter.post("/", createCategory)

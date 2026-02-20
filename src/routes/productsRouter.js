@@ -3,7 +3,6 @@ import { crtProduct, delProduct, getProducts, updProduct } from "../controllers/
 
 const productRouter = Router()
 
-// GET - http://localhost:3000/products/
 
 productRouter.get("/", getProducts)
 productRouter.post("/", crtProduct)
