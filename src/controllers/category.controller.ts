@@ -1,16 +1,18 @@
-import { createCaterories, deleteCategory, getAllCategories, updateCategory } from "../services/categoryService.js"
+import { Request, Response } from "express"
+import { createCaterories, deleteCategory, getAllCategories, updateCategory } from "../services/categoryService"
 
-const getCategory = async (req, res) => {
+const getCategory = async (req: Request, res: Response) => {
   try {
     const category = await getAllCategories()
     res.json({ success: true, data: category })
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
+
   }
 }
 
-const createCategory = async (req, res) => {
+const createCategory = async (req: Request, res: Response) => {
   try {
     const body = req.body
     const { name, description } = body
@@ -23,11 +25,12 @@ const createCategory = async (req, res) => {
 
     res.status(201).json({ success: true, data: createdCategory })
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
-const updCategory = async (req, res) => {
+const updCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
     const updates = req.body
@@ -41,11 +44,12 @@ const updCategory = async (req, res) => {
 
     res.json({ success: true, data: updatedCategory })
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
-const delCategory = async (req, res) => {
+const delCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
     const deletedCategory = await deleteCategory(id)
@@ -54,10 +58,8 @@ const delCategory = async (req, res) => {
     }
     res.json({ success: true, data: deletedCategory })
   } catch (error) {
-    if (error.kind === "ObjectId") {
-      return res.status(400).json({ success: false, error: "ID incorrecto, ingresa un valor valido" })
-    }
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
