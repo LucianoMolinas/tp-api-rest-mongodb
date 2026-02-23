@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
-import { connectDb } from "./config/mongodb.js"
-import { productRouter } from "./routes/productsRouter.js"
+import { connectDb } from "./config/mongodb"
+import { productRouter } from "./routes/productsRouter"
 import { CategoryRouter } from "./routes/categoryRouter.js"
 import { authRouter } from "./routes/authRouter.js"
 import { authMiddleware } from "./middleware/authMiddleware.js"
@@ -30,6 +30,12 @@ serverHttp.use((req, res) => {
 const PORT = process.env.PORT
 
 serverHttp.listen(PORT, () => {
-  console.log(`✅ Servidor http en escucha en el puerto http://127.0.0.1:${PORT}`)
-  connectDb()
+  try {
+    console.log(`✅ Servidor http en escucha en el puerto http://127.0.0.1:${PORT}`)
+    connectDb()
+  } catch (error) {
+    const err = error as Error
+    console.log(err.message)
+    process.exit(1)
+  }
 })

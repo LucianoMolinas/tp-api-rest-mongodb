@@ -1,17 +1,20 @@
-import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../services/productService.js"
+
+import { Request, Response } from "express"
+import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../services/productService"
 
 
-const getProducts = async (req, res) => {
+const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await getAllProducts()
     res.json({ success: true, data: products })
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
+
   }
 }
 
-const crtProduct = async (req, res) => {
+const crtProduct = async (req: Request, res: Response) => {
   try {
     const body = req.body
     const { name, price, stock, category, description } = body
@@ -23,11 +26,12 @@ const crtProduct = async (req, res) => {
 
     res.status(201).json({ success: true, data: createdProduct })
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
-const updProduct = async (req, res) => {
+const updProduct = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const id = req.params.id
     const updates = req.body
@@ -41,11 +45,12 @@ const updProduct = async (req, res) => {
       res.json({ success: true, data: updatedProduct })
     }
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
-const delProduct = async (req, res) => {
+const delProduct = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const id = req.params.id
 
@@ -56,10 +61,8 @@ const delProduct = async (req, res) => {
     }
     res.status(200).json({ success: true, data: deletedProduct })
   } catch (error) {
-    if (error.kind === "ObjectId") {
-      return res.status(400).json({ success: false, error: "ID incorrecto, ingresa un valor valido" })
-    }
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
