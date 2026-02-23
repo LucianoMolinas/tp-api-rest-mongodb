@@ -32,7 +32,7 @@ const createCategory = async (req: Request, res: Response) => {
 
 const updCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
+    const id = req.params.id as string
     const updates = req.body
 
     const updatedCategory = await updateCategory(id, updates)
@@ -51,7 +51,7 @@ const updCategory = async (req: Request, res: Response) => {
 
 const delCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
+    const id = req.params.id as string
     const deletedCategory = await deleteCategory(id)
     if (!deletedCategory) {
       return res.status(404).json({ success: false, error: "no existe  la categoria que desea borrar" })

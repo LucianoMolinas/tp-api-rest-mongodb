@@ -4,7 +4,7 @@ import { connectDb } from "./config/mongodb"
 import { productRouter } from "./routes/productsRouter"
 import { CategoryRouter } from "./routes/categoryRouter"
 import { authRouter } from "./routes/authRouter"
-import { authMiddleware } from "./middleware/authMiddleware.js"
+import { authMiddleware } from "./middleware/authMiddleware"
 import dotenv from "dotenv"
 
 dotenv.config()

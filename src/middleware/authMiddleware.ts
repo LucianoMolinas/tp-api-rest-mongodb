@@ -1,10 +1,13 @@
-import jwt from "jsonwebtoken"
+import { Request, Response, NextFunction } from "express"
+import jwt, { Secret } from "jsonwebtoken"
 import dotenv from "dotenv"
 dotenv.config()
 
-const JWT_SECRET = process.env.JWT_SECRET
+//const JWT_SECRET = process.env.JWT_SECRET
 
-const authMiddleware = (req, res, next) => {
+const JWT_SECRET: Secret = process.env.JWT_SECRET as string;
+
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const header = req.headers.authorization
 
   if (!header) {
@@ -28,7 +31,8 @@ const authMiddleware = (req, res, next) => {
     const verifyToken = jwt.verify(token, JWT_SECRET)
     next()
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 
