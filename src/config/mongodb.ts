@@ -2,7 +2,10 @@ import { connect } from "mongoose"
 import dotenv from "dotenv"
 dotenv.config()
 
-const URI_DB = process.env.URI_DB || "mongodb://127.0.0.1:27017/db_backend_utn "
+//const URI_DB = process.env.URI_DB || "mongodb://127.0.0.1:27017/db_backend_utn "
+
+let URI_DB: string;
+URI_DB = '' + process.env.URI_DB
 
 
 const connectDb = async () => {

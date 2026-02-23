@@ -1,12 +1,14 @@
-import jwt from "jsonwebtoken"
+
+import { Request, Response } from "express"
+import jwt, { Secret } from "jsonwebtoken"
 import dotenv from "dotenv"
-import { newUser, getUser, validUser } from "../services/userService.js"
+import { newUser, getUser, validUser } from "../services/userService"
 dotenv.config()
 
-const JWT_SECRET = process.env.JWT_SECRET
-const JWT_EXPIRES = process.env.JWT_EXPIRES
+const JWT_SECRET: Secret = process.env.JWT_SECRET as string;
 
-const register = async (req, res) => {
+
+const register = async (req: Request, res: Response) => {
   try {
     const body = req.body
 
@@ -34,15 +36,19 @@ const register = async (req, res) => {
         email: newUser1.email
       }
     })
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 11000) {
       return res.status(400).json({ success: false, error: "Email ya existente en nuestra base de datos" })
     }
-    res.status(500).json({ success: false, error: error.message })
+    const err = error as Error
+
+    return res.status(500).json({
+      success: false,
+      error: err.message
+    })
   }
 }
-
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
   try {
     const body = req.body
     const { email, password } = body
@@ -63,17 +69,18 @@ const login = async (req, res) => {
       return res.status(401).json({ succes: false, error: "desautorizado" })
     }
 
-    // generar un token (cupón especial)
-    // Un token es una llave digital o un fragmento de información que sirve para autenticar y autorizar a un usuario en sistemas digitales
+
+
 
     const payload = { _id: foundUser._id, username: foundUser.username, email: foundUser.email }
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES })
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "10h" })
 
     res.json({ success: true, data: token })
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message })
-
+    const err = error as Error
+    res.status(500).json({ success: false, error: err.message })
   }
 }
 

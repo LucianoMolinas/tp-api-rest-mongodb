@@ -1,7 +1,15 @@
-import { User } from "../models/user.model.js"
+import { User } from "../models/user.model"
 import bcryptjs from "bcryptjs"
 
-const newUser = async (data) => {
+type DataUser
+  = {
+    email: string,
+    password: string,
+    username: string
+  }
+
+
+const newUser = async (data: DataUser) => {
 
   const { email, password, username } = data
 
@@ -12,15 +20,17 @@ const newUser = async (data) => {
     password: hash,
     username
   }
+
+
   return await User.create(newDataUser)
 }
 
-const getUser = async (data) => {
+const getUser = async (data: DataUser) => {
   const { email } = data
   return await User.findOne({ email })
 }
 
-const validUser = async (passwordbd, passwordlog) => {
+const validUser = async (passwordbd: string, passwordlog: string) => {
   return await bcryptjs.compare(passwordbd, passwordlog)
 }
 

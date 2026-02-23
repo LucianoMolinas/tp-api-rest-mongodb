@@ -3,7 +3,7 @@ import cors from "cors"
 import { connectDb } from "./config/mongodb"
 import { productRouter } from "./routes/productsRouter"
 import { CategoryRouter } from "./routes/categoryRouter"
-import { authRouter } from "./routes/authRouter.js"
+import { authRouter } from "./routes/authRouter"
 import { authMiddleware } from "./middleware/authMiddleware.js"
 import dotenv from "dotenv"
 
